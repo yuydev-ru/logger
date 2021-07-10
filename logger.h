@@ -22,6 +22,8 @@ public:
     virtual void error(const std::string &errorMessage) = 0;
     virtual void warning(const std::string &warningMessage) = 0;
     virtual void info(const std::string &infoMessage) = 0;
+    void setLevel(LogLevel logLevel);
+    LogLevel getLevel() const;
 protected:
     LogLevel logLevel = ERROR;
 };

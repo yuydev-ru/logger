@@ -78,6 +78,8 @@ void
 Logger::warning(const std::string &errorMessage) {
     for (auto logger : loggers)
     {
+        if (logger->getLevel() == ERROR)
+            continue;
         logger->warning(errorMessage);
     }
 }
@@ -86,7 +88,21 @@ void
 Logger::info(const std::string &errorMessage) {
     for (auto logger : loggers)
     {
+        if (logger->getLevel() != INFO)
+            continue;
         logger->info(errorMessage);
     }
+}
+
+void
+LoggerDestination::setLevel(LogLevel logLevel)
+{
+    this->logLevel = logLevel;
+}
+
+LogLevel
+LoggerDestination::getLevel() const
+{
+    return this->logLevel;
 }
 
