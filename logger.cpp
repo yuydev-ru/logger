@@ -52,22 +52,22 @@ FileLogger::FileLogger(std::ofstream &destination, LogLevel logLevel) : destinat
     this->logLevel = logLevel;
 }
 
-// Logger controller methods
+// LoggerDestination controller methods
 
 void
-LoggerController::addLogger(Logger *loggerRef)
+Logger::addLogger(LoggerDestination *loggerRef)
 {
     loggers.insert(loggerRef);
 }
 
 void
-LoggerController::removeLogger(Logger *loggerRef)
+Logger::removeLogger(LoggerDestination *loggerRef)
 {
     loggers.erase(loggerRef);
 }
 
 void
-LoggerController::error(const std::string &errorMessage) {
+Logger::error(const std::string &errorMessage) {
     for (auto logger : loggers)
     {
         logger->error(errorMessage);
@@ -75,7 +75,7 @@ LoggerController::error(const std::string &errorMessage) {
 }
 
 void
-LoggerController::warning(const std::string &errorMessage) {
+Logger::warning(const std::string &errorMessage) {
     for (auto logger : loggers)
     {
         logger->warning(errorMessage);
@@ -83,7 +83,7 @@ LoggerController::warning(const std::string &errorMessage) {
 }
 
 void
-LoggerController::info(const std::string &errorMessage) {
+Logger::info(const std::string &errorMessage) {
     for (auto logger : loggers)
     {
         logger->info(errorMessage);

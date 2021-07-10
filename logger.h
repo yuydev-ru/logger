@@ -17,7 +17,7 @@ enum LogLevel {
 };
 
 // Pure virtual class (interface)
-class Logger {
+class LoggerDestination {
 public:
     virtual void error(const std::string &errorMessage) = 0;
     virtual void warning(const std::string &warningMessage) = 0;
@@ -26,22 +26,21 @@ protected:
     LogLevel logLevel = ERROR;
 };
 
-// Logging manager class
-class LoggerController {
+class Logger {
 public:
-    void addLogger(Logger* logger);
-    void removeLogger(Logger* logger);
+    void addLogger(LoggerDestination* logger);
+    void removeLogger(LoggerDestination* logger);
     void error(const std::string &errorMessage);
     void warning(const std::string &warningMessage);
     void info(const std::string &infoMessage);
 protected:
     LogLevel logLevel = ERROR;
 private:
-    std::set<Logger*> loggers;
+    std::set<LoggerDestination*> loggers;
 };
 
 // File stream logger
-class FileLogger : Logger {
+class FileLogger : LoggerDestination {
 public:
     void error(const std::string &errorMessage) override;
     void warning(const std::string &warningMessage) override;
@@ -53,7 +52,7 @@ private:
 };
 
 // Console stream logger
-class ConsoleLogger : Logger {
+class ConsoleLogger : LoggerDestination {
 public:
     void error(const std::string &errorMessage) override;
     void warning(const std::string &warningMessage) override;
