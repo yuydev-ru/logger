@@ -12,20 +12,15 @@ FileLogger::error(const std::string &errorMessage)
 }
 
 void
-FileLogger::info(const std::string &infoMessage) {
-    if (this->logLevel != INFO)
-    {
-        return;
-    }
+FileLogger::info(const std::string &infoMessage)
+{
     this->destination << "[INFO] " << infoMessage << std::endl << "===================" << std::endl;
 }
 
 void
-FileLogger::warning(const std::string &warningMessage) {
-    if (this->logLevel != ERROR)
-    {
-        this->destination << "[WARNING] " << warningMessage << std::endl << "===================" << std::endl;
-    }
+FileLogger::warning(const std::string &warningMessage)
+{
+    this->destination << "[WARNING] " << warningMessage << std::endl << "===================" << std::endl;
 }
 
 void
@@ -35,27 +30,63 @@ ConsoleLogger::error(const std::string &errorMessage)
 }
 
 void
-ConsoleLogger::info(const std::string &infoMessage) {
-    if (this->logLevel != INFO)
-    {
-        return;
-    }
+ConsoleLogger::info(const std::string &infoMessage)
+{
     this->destination << "[INFO] " << infoMessage << std::endl << "===================" << std::endl;
 }
 
 void
-ConsoleLogger::warning(const std::string &warningMessage) {
-    if (this->logLevel != ERROR)
-    {
+ConsoleLogger::warning(const std::string &warningMessage)
+{
         this->destination << "[WARNING] " << warningMessage << std::endl << "===================" << std::endl;
-    }
 }
 
 // Constructors
-ConsoleLogger::ConsoleLogger(std::ostream &dest, LogLevel logLevel = ERROR): destination(dest) {
+ConsoleLogger::ConsoleLogger(std::ostream &destination, LogLevel logLevel = ERROR): destination(destination)
+{
     this->logLevel = logLevel;
 }
 
-FileLogger::FileLogger(std::ofstream &destination, LogLevel logLevel) : destination(destination) {
+FileLogger::FileLogger(std::ofstream &destination, LogLevel logLevel) : destination(destination)
+{
     this->logLevel = logLevel;
 }
+
+// Logger controller methods
+
+void
+LoggerController::addLogger(Logger *loggerRef)
+{
+    loggers.insert(loggerRef);
+}
+
+void
+LoggerController::removeLogger(Logger *loggerRef)
+{
+    loggers.erase(loggerRef);
+}
+
+void
+LoggerController::error(const std::string &errorMessage) {
+    for (auto logger : loggers)
+    {
+        logger->error(errorMessage);
+    }
+}
+
+void
+LoggerController::warning(const std::string &errorMessage) {
+    for (auto logger : loggers)
+    {
+        logger->warning(errorMessage);
+    }
+}
+
+void
+LoggerController::info(const std::string &errorMessage) {
+    for (auto logger : loggers)
+    {
+        logger->info(errorMessage);
+    }
+}
+
