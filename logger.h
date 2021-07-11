@@ -1,43 +1,87 @@
 //
 // Created by Никита Рыданов on 09/07/2021.
 //
-
-#pragma once
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include <fstream>
+#include <set>
+#include <map>
 
-class Logger {
-public:
+namespace logger {
+
+    // Logging levels:
+    // ERROR - only error messages appear
+    // WARNING - error and warning messages appear
+    // INFO - all messages appear
     enum LogLevel {
         ERROR,
         WARNING,
         INFO
     };
-    virtual void error(const std::string &errorMessage) = 0;
-    virtual void warning(const std::string &warningMessage) = 0;
-    virtual void info(const std::string &infoMessage) = 0;
-protected:
-    LogLevel logLevel = ERROR;
-};
 
-class FileLogger : Logger {
-public:
-    void error(const std::string &errorMessage) override;
-    void warning(const std::string &warningMessage) override;
-    void info(const std::string &infoMessage) override;
-    explicit FileLogger(std::ofstream& destination, LogLevel logLevel);
+// Pure virtual class (interface)
+    class LoggerDestination {
+    public:
+        virtual void error(const std::string &errorMessage) = 0;
 
-private:
-    std::ofstream &destination;
-};
+        virtual void warning(const std::string &warningMessage) = 0;
 
-class ConsoleLogger : Logger {
-public:
-    void error(const std::string &errorMessage) override;
-    void warning(const std::string &warningMessage) override;
-    void info(const std::string &infoMessage) override;
-    explicit ConsoleLogger(std::ostream& destination, LogLevel logLevel);
-private:
-    std::ostream &destination;
-};
+        virtual void info(const std::string &infoMessage) = 0;
+    };
 
+    class Logger {
+    public:
+        void addDestination(LoggerDestination *logger);
+
+        void removeDestination(LoggerDestination *logger);
+
+        void error(const std::string &errorMessage) const;
+
+        void warning(const std::string &warningMessage) const;
+
+        void info(const std::string &infoMessage) const;
+
+        Logger();
+
+        explicit Logger(LogLevel logLevel);
+
+    protected:
+        LogLevel logLevel;
+    private:
+        std::set<LoggerDestination *> loggerDestinations;
+        std::map<LogLevel, int> priority;
+    };
+
+    // File stream logger
+    class FileLogger : public LoggerDestination {
+    public:
+        void error(const std::string &errorMessage) override;
+
+        void warning(const std::string &warningMessage) override;
+
+        void info(const std::string &infoMessage) override;
+
+        explicit FileLogger(std::ofstream &destination, LogLevel logLevel);
+
+    private:
+        std::ofstream &destination;
+    };
+
+    // Console stream logger
+    class ConsoleLogger : public LoggerDestination {
+    public:
+        void error(const std::string &errorMessage) override;
+
+        void warning(const std::string &warningMessage) override;
+
+        void info(const std::string &infoMessage) override;
+
+        explicit ConsoleLogger(std::ostream &destination);
+
+    private:
+        std::ostream &destination;
+    };
+
+}
+#endif
