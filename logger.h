@@ -8,7 +8,6 @@
 #include <set>
 #include <map>
 
-
 namespace Log {
 
     // Logging levels:

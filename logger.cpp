@@ -4,10 +4,9 @@
 
 #include "logger.h"
 
-// Overriding methods
-
 using namespace Log;
 
+// Overriding methods
 void
 FileLogger::error(const std::string &errorMessage)
 {
