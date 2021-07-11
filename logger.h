@@ -1,7 +1,8 @@
 //
 // Created by Никита Рыданов on 09/07/2021.
 //
-#pragma once
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include <fstream>
 #include <set>
@@ -84,3 +85,4 @@ namespace Log {
     };
 
 }
+#endif
