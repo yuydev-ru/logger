@@ -54,7 +54,7 @@ namespace Log {
     };
 
 // File stream logger
-    class FileLogger : LoggerDestination {
+    class FileLogger : public LoggerDestination {
     public:
         void error(const std::string &errorMessage) override;
 
@@ -69,7 +69,7 @@ namespace Log {
     };
 
 // Console stream logger
-    class ConsoleLogger : LoggerDestination {
+    class ConsoleLogger : public LoggerDestination {
     public:
         void error(const std::string &errorMessage) override;
 
