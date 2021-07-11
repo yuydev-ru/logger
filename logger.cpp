@@ -40,7 +40,7 @@ ConsoleLogger::info(const std::string &infoMessage)
 void
 ConsoleLogger::warning(const std::string &warningMessage)
 {
-        this->destination << "[WARNING] " << warningMessage << std::endl << "===================" << std::endl;
+    this->destination << "[WARNING] " << warningMessage << std::endl << "===================" << std::endl;
 }
 
 // Constructors
