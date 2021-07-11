@@ -4,7 +4,7 @@
 
 #include "logger.h"
 
-using namespace log;
+using namespace logger;
 
 // Overriding methods
 void

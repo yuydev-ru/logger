@@ -8,7 +8,7 @@
 #include <set>
 #include <map>
 
-namespace log {
+namespace logger {
 
     // Logging levels:
     // ERROR - only error messages appear
