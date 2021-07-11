@@ -8,13 +8,13 @@
 #include <set>
 #include <map>
 
-// Logging levels:
-// ERROR - only error messages appear
-// WARNING - error and warning messages appear
-// INFO - all messages appear
+
 namespace Log {
 
-
+    // Logging levels:
+    // ERROR - only error messages appear
+    // WARNING - error and warning messages appear
+    // INFO - all messages appear
     enum LogLevel {
         ERROR,
         WARNING,
@@ -54,7 +54,7 @@ namespace Log {
         std::map<LogLevel, int> priority;
     };
 
-// File stream logger
+    // File stream logger
     class FileLogger : public LoggerDestination {
     public:
         void error(const std::string &errorMessage) override;
@@ -69,7 +69,7 @@ namespace Log {
         std::ofstream &destination;
     };
 
-// Console stream logger
+    // Console stream logger
     class ConsoleLogger : public LoggerDestination {
     public:
         void error(const std::string &errorMessage) override;
