@@ -5,6 +5,9 @@
 #include "logger.h"
 
 // Overriding methods
+
+using namespace Log;
+
 void
 FileLogger::error(const std::string &errorMessage)
 {
@@ -42,67 +45,76 @@ ConsoleLogger::warning(const std::string &warningMessage)
 }
 
 // Constructors
-ConsoleLogger::ConsoleLogger(std::ostream &destination, LogLevel logLevel = ERROR): destination(destination)
-{
-    this->logLevel = logLevel;
-}
+ConsoleLogger::ConsoleLogger(std::ostream &destination): destination(destination) {};
 
-FileLogger::FileLogger(std::ofstream &destination, LogLevel logLevel) : destination(destination)
-{
-    this->logLevel = logLevel;
-}
+FileLogger::FileLogger(std::ofstream &destination, LogLevel logLevel) : destination(destination) {};
 
 // LoggerDestination controller methods
 
 void
-Logger::addLogger(LoggerDestination *loggerRef)
+Logger::addDestination(LoggerDestination *loggerRef)
 {
-    loggers.insert(loggerRef);
+    loggerDestinations.insert(loggerRef);
 }
 
 void
-Logger::removeLogger(LoggerDestination *loggerRef)
+Logger::removeDestination(LoggerDestination *loggerRef)
 {
-    loggers.erase(loggerRef);
+    loggerDestinations.erase(loggerRef);
 }
 
 void
-Logger::error(const std::string &errorMessage) {
-    for (auto logger : loggers)
+Logger::error(const std::string &errorMessage) const
+{
+    if (priority.at(ERROR) < priority.at(logLevel))
     {
-        logger->error(errorMessage);
+        return;
+    }
+
+    for (auto destination : loggerDestinations)
+    {
+        destination->error(errorMessage);
     }
 }
 
 void
-Logger::warning(const std::string &errorMessage) {
-    for (auto logger : loggers)
+Logger::warning(const std::string &errorMessage) const
+{
+    if (priority.at(WARNING) < priority.at(logLevel))
     {
-        if (logger->getLevel() == ERROR)
-            continue;
-        logger->warning(errorMessage);
+        return;
+    }
+
+    for (auto destination : loggerDestinations)
+    {
+        destination->warning(errorMessage);
     }
 }
 
 void
-Logger::info(const std::string &errorMessage) {
-    for (auto logger : loggers)
+Logger::info(const std::string &errorMessage) const
+{
+    if (priority.at(INFO) < priority.at(logLevel))
     {
-        if (logger->getLevel() != INFO)
-            continue;
-        logger->info(errorMessage);
+        return;
+    }
+
+    for (auto destination : loggerDestinations)
+    {
+        destination->info(errorMessage);
     }
 }
 
-void
-LoggerDestination::setLevel(LogLevel logLevel)
+Logger::Logger()
+{
+    this->logLevel = ERROR;
+    priority[ERROR] = 3;
+    priority[WARNING] = 2;
+    priority[INFO] = 1;
+}
+
+Logger::Logger(LogLevel logLevel) : Logger()
 {
     this->logLevel = logLevel;
-}
-
-LogLevel
-LoggerDestination::getLevel() const
-{
-    return this->logLevel;
 }
 
