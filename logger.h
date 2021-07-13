@@ -79,6 +79,7 @@ namespace logger {
 
         explicit ConsoleLogger(std::ostream &destination);
 
+        ConsoleLogger();
     private:
         std::ostream &destination;
     };

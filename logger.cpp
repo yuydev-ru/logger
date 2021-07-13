@@ -3,6 +3,8 @@
 //
 
 #include "logger.h"
+#include <iostream>
+#include <chrono>
 
 using namespace logger;
 
@@ -10,37 +12,74 @@ using namespace logger;
 void
 FileLogger::error(const std::string &errorMessage)
 {
-    this->destination << "[ERROR] " << errorMessage << std::endl;
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+    auto tm = gmtime(&time);
+    std::string h = std::to_string(tm->tm_hour);
+    std::string m = std::to_string(tm->tm_min);
+    std::string s = std::to_string(tm->tm_sec);
+
+    this->destination << "[" + h + ":" + m + ":" + s + "]" + "[ERROR] " << errorMessage << std::endl;
 }
 
 void
 FileLogger::info(const std::string &infoMessage)
 {
-    this->destination << "[INFO] " << infoMessage << std::endl;
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+    auto tm = gmtime(&time);
+    std::string h = std::to_string(tm->tm_hour);
+    std::string m = std::to_string(tm->tm_min);
+    std::string s = std::to_string(tm->tm_sec);
+    this->destination << "[" + h + ":" + m + ":" + s + "]" + "[INFO] " << infoMessage << std::endl;
 }
 
 void
 FileLogger::warning(const std::string &warningMessage)
 {
-    this->destination << "[WARNING] " << warningMessage << std::endl;
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+    auto tm = gmtime(&time);
+    std::string h = std::to_string(tm->tm_hour);
+    std::string m = std::to_string(tm->tm_min);
+    std::string s = std::to_string(tm->tm_sec);
+    this->destination << "[" + h + ":" + m + ":" + s + "]" + "[WARNING] " << warningMessage << std::endl;;
 }
 
 void
 ConsoleLogger::error(const std::string &errorMessage)
 {
-    this->destination << "[ERROR] " << errorMessage << std::endl;
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+    auto tm = gmtime(&time);
+    std::string h = std::to_string(tm->tm_hour);
+    std::string m = std::to_string(tm->tm_min);
+    std::string s = std::to_string(tm->tm_sec);
+    this->destination << "[" + h + ":" + m + ":" + s + "]" + "[ERROR] " << errorMessage << std::endl;
 }
 
 void
 ConsoleLogger::info(const std::string &infoMessage)
 {
-    this->destination << "[INFO] " << infoMessage << std::endl;
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+    auto tm = gmtime(&time);
+    std::string h = std::to_string(tm->tm_hour);
+    std::string m = std::to_string(tm->tm_min);
+    std::string s = std::to_string(tm->tm_sec);
+    this->destination << "[" + h + ":" + m + ":" + s + "]" + "[INFO] " << infoMessage << std::endl;
 }
 
 void
 ConsoleLogger::warning(const std::string &warningMessage)
 {
-    this->destination << "[WARNING] " << warningMessage << std::endl;
+    auto currentTime = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
+    auto tm = gmtime(&time);
+    std::string h = std::to_string(tm->tm_hour);
+    std::string m = std::to_string(tm->tm_min);
+    std::string s = std::to_string(tm->tm_sec);
+    this->destination << "[" + h + ":" + m + ":" + s + "]" + "[WARNING] " << warningMessage << std::endl;
 }
 
 // Constructors
@@ -111,6 +150,8 @@ Logger::Logger()
     priority[WARNING] = 2;
     priority[INFO] = 1;
 }
+
+ConsoleLogger::ConsoleLogger() : destination(std::cout) {}
 
 Logger::Logger(LogLevel logLevel) : Logger()
 {
