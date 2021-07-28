@@ -4,7 +4,7 @@ CXX=g++
 CXXFLAGS=-Wall -Wpedantic -ggdb -std=c++11
 ifneq ($(OS),Windows_NT)
 	ifeq ($(shell uname), Darwin)
-		override CFLAGS += -arch x86_64
+		override CXXFLAGS += -arch x86_64
 	endif
 endif
 PREFIX ?= .
