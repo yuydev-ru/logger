@@ -2,7 +2,7 @@
 // Created by Никита Рыданов on 09/07/2021.
 //
 
-#include "logger.h"
+#include <logger/logger.hpp>
 #include <iostream>
 #include <chrono>
 
